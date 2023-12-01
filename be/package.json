@@ -1,0 +1,11 @@
+{
+  "name": "backend_template",
+  "version": "1.0.0",
+  "author": "Việt Nguyễn <nghoangviet2000@hotmail.com>",
+  "license": "Mozilla Public License Version 2.0",
+  "scripts": {
+    "xem": "tsc -w",
+    "start": "nodemon dist/index.js"
+
+  }
+}
