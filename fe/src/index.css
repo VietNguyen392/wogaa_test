@@ -12,15 +12,11 @@
 * {
   margin: 0;
 }
-@font-face {
-  font-family: Helvetica;
-  src: url(/src/styles/Font/helveticaneue.ttf);
-}
+
 
 html {
   line-height: 1.15; /* 1 */
   -webkit-text-size-adjust: 100%; /* 2 */
-  font-family: Helvetica,sans-serif;
    -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   scroll-behavior: smooth;
@@ -32,7 +28,12 @@ body {
 }
 
 
-
+.center{
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
 main {
   display: block;
   background: var(--light);
