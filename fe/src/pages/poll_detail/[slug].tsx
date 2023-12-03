@@ -3,7 +3,8 @@ import { useParams } from "react-router-dom";
 import { GET, PATCH } from "../../utils/fetchMethod.ts";
 import { useForm } from "react-hook-form";
 import Results from "../../components/polls/Results.tsx";
-
+import { toast } from "react-toastify";
+import { socket } from "../../utils/socket.ts";
 const PollDetail = () => {
   const [state, setState] = React.useState({
     poll: {},
@@ -11,10 +12,10 @@ const PollDetail = () => {
   });
   const { poll, options } = state;
   const user = JSON.parse(localStorage.getItem("auth"));
-  const authorId = user.user["_id"];
-  const { register, handleSubmit } = useForm({
+  const userId = user.user["_id"];
+  const { register, handleSubmit, reset } = useForm({
     defaultValues: {
-      userId: `${authorId}`,
+      userId: `${userId}`,
       optionsId: "",
     },
     mode: "onSubmit",
@@ -22,7 +23,10 @@ const PollDetail = () => {
   const { slug } = useParams();
   const onSubmit = async (data: object) => {
     const res = await PATCH(`voted/${slug}`, data).then((res) => res.json());
-    console.log(res);
+    if (res.code === 200) {
+      toast.success("Success");
+      reset();
+    }
   };
   React.useEffect(() => {
     const pollDetail = async () => {
@@ -35,7 +39,20 @@ const PollDetail = () => {
     };
     pollDetail();
   }, []);
-
+  React.useEffect(() => {
+    socket.emit("joinRoom", slug);
+    socket.on("voted", (data) => {
+      setState((p) => ({
+        ...p,
+        poll: { ...poll, ...data },
+        options: [...options, ...data["options"]],
+      }));
+    });
+    return () => {
+      socket.emit("outRoom", slug);
+      socket.off("voted");
+    };
+  }, []);
   return (
     <div className={"mt-3"}>
       <h1 className="text-center text-uppercase">{poll["title"]}</h1>
@@ -45,18 +62,23 @@ const PollDetail = () => {
             {poll["options"]?.map((item: object) => (
               <li key={item["_id"]} className={"list-group-item"}>
                 <div className="form-check">
-                  <input
-                    type={"radio"}
-                    value={item["_id"]}
-                    className={"form-check-input"}
-                    disabled={
-                      authorId === poll["author"] ||
-                      poll["user_voted"].includes(authorId)
-                    }
-                    id={item["name"]}
-                    // checked={item["count"] !== 0}
-                    {...register("optionsId")}
-                  />
+                  {poll["user_voted"].includes(userId) ? (
+                    <input
+                      checked={item["checked"]}
+                      type={"radio"}
+                      className={"form-check-input"}
+                      disabled
+                    />
+                  ) : (
+                    <input
+                      type={"radio"}
+                      value={item["_id"]}
+                      className={"form-check-input"}
+                      disabled={userId === poll["author"]}
+                      id={item["name"]}
+                      {...register("optionsId")}
+                    />
+                  )}
                   <label
                     className="form-check-label text-capitalize"
                     htmlFor={item["name"]}
@@ -71,10 +93,12 @@ const PollDetail = () => {
             Voted
           </button>
         </form>
-        <div className="mt-4">
-          <h1 className="text-center">Results</h1>
-          <Results pollName={poll["title"]} optionsData={options} />
-        </div>
+        {poll["user_voted"]?.length !== 0 && (
+          <div className="mt-4">
+            <h1 className="text-center">Results</h1>
+            <Results pollName={poll["title"]} optionsData={options} />
+          </div>
+        )}
       </div>
     </div>
   );

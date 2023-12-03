@@ -3,7 +3,9 @@ const Header = () => {
   return (
     <nav className="navbar navbar-expand-lg bg-body-tertiary mb-2">
       <div className="container-fluid">
-        <a className="navbar-brand">React Poll App</a>
+        <a className="navbar-brand" href={"/"}>
+          React Poll App
+        </a>
 
         <div className="collapse navbar-collapse" id="navbarText">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">

@@ -23,7 +23,7 @@ const UserController = {
             const { fullName, email, password } = req.body;
             const userExist = yield models_1.User.findOne({ email });
             if (userExist)
-                return res.status(400).send({ msg: 'Email already in use' });
+                return res.status(400).send({ msg: "Email already in use" });
             const passwordHash = yield bcrypt_1.default.hash(password, 10);
             const newUser = yield models_1.User.create({
                 fullName,
@@ -38,35 +38,35 @@ const UserController = {
                 });
             }
             else {
-                res.status(400).send({ msg: 'Error' });
+                res.status(400).send({ msg: "Error" });
             }
         }
         catch (e) {
-            res.status(500).send({ msg: 'Internal Server Error' });
+            res.status(500).send({ msg: "Internal Server Error" });
             console.log(e);
         }
     }),
     getAllUser: (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
         try {
-            const user = yield models_1.User.find().select('-password').sort('-createdAt');
+            const user = yield models_1.User.find().select("-password").sort("-createdAt");
             if (!user)
-                return res.status(404).send({ msg: 'User not found' });
+                return res.status(404).send({ msg: "User not found" });
             res.json({ user });
         }
         catch (e) {
-            res.status(500).send({ msg: 'Internal Server Error' });
+            res.status(500).send({ msg: "Internal Server Error" });
             console.log(e);
         }
     }),
     getUserById: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         try {
-            const user = yield models_1.User.findById(req.params.id).select('-password');
+            const user = yield models_1.User.findById(req.params.id).select("-password");
             if (!user)
-                return res.status(404).send({ msg: 'User not found' });
+                return res.status(404).send({ msg: "User not found" });
             res.json({ user });
         }
         catch (e) {
-            res.status(500).send({ msg: 'Internal Server Error' });
+            res.status(500).send({ msg: "Internal Server Error" });
             console.log(e);
         }
     }),
@@ -75,8 +75,8 @@ const UserController = {
             const { email, password } = req.body;
             const user = yield models_1.User.findOne({ email });
             if (!user)
-                return res.status(400).send({ msg: 'Account not exist' });
-            yield (0, middleware_1.handleUserLogin)(user, password, res);
+                return res.status(400).send({ msg: "Account not exist" });
+            (0, middleware_1.handleUserLogin)(user, password, res);
         }
         catch (error) {
             return res.status(500).send({ msg: error.message });
@@ -84,31 +84,32 @@ const UserController = {
     }),
     logout: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         if (!req.user)
-            return res.status(400).send({ msg: 'Invalid' });
+            return res.status(400).send({ msg: "Invalid" });
         try {
-            res.clearCookie('refreshtoken', { path: '/api/rf-token' });
+            res.clearCookie("refreshtoken", { path: "/api/rf-token" });
             yield models_1.User.findOneAndUpdate({ _id: req.user._id }, {
-                rf_token: '',
+                rf_token: "",
             });
-            return res.send('Logout!');
+            return res.send("Logout!");
         }
         catch (error) {
             return res.status(500).send({ msg: error.message });
         }
     }),
     refreshToken: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        console.log(req.cookies);
         try {
             const rf_token = req.cookies.refreshtoken;
             if (!rf_token)
-                return res.status(400).send({ msg: 'Hãy đăng nhập ngay!' });
-            const decoded = jsonwebtoken_1.default.verify(rf_token, `${process.env.REFRESH_TOKEN_SECRET}`);
+                return res.status(400).send({ msg: "Hãy đăng nhập ngay!" });
+            const decoded = (jsonwebtoken_1.default.verify(rf_token, `${process.env.REFRESH_TOKEN_SECRET}`));
             if (!decoded.id)
-                return res.status(400).send({ msg: 'Hãy đăng nhập ngay!' });
-            const user = yield models_1.User.findById(decoded.id).select('-password +rf_token');
+                return res.status(400).send({ msg: "Hãy đăng nhập ngay!" });
+            const user = yield models_1.User.findById(decoded.id).select("-password +rf_token");
             if (!user)
-                return res.status(400).send({ msg: 'Tài khoản này không tồn tại' });
+                return res.status(400).send({ msg: "Tài khoản này không tồn tại" });
             if (rf_token !== user.rf_token)
-                return res.status(400).send({ msg: 'Hãy đăng nhập ngay!' });
+                return res.status(400).send({ msg: "Hãy đăng nhập ngay!" });
             const access_token = (0, main_1.generateAccessToken)({ id: user._id });
             const refresh_token = (0, main_1.generateRefreshToken)({ id: user._id }, res);
             yield models_1.User.findOneAndUpdate({ _id: user._id }, {

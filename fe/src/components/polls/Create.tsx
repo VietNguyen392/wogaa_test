@@ -23,11 +23,7 @@ const Create = () => {
   const onSubmit = async (data: object) => {
     const res = await POST("create-poll", data).then((res) => res.json());
     if (res.code === 200) {
-      toast.success("Create Success", {
-        position: "top-right",
-        autoClose: 3000,
-        theme: "light",
-      });
+      toast.success("Create Success");
       reset();
     }
   };
@@ -62,7 +58,7 @@ const Create = () => {
             <button
               className="btn btn-primary"
               type={"button"}
-              disabled={fields.length === 4}
+              disabled={fields.length === 5}
               onClick={() => append({ name: "" })}
             >
               <IconPlus /> Add Options

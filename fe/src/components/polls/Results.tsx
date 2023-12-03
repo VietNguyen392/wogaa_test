@@ -19,7 +19,7 @@ const Results = ({ pollName, optionsData }) => {
   );
 
   return (
-    <div>
+    <>
       <Chart
         data={data}
         options={chartOptions}
@@ -27,7 +27,7 @@ const Results = ({ pollName, optionsData }) => {
         width={"100%"}
         height={"50rem"}
       />
-    </div>
+    </>
   );
 };
 

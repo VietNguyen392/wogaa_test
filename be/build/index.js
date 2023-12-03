@@ -12,17 +12,19 @@ const mongoose_1 = __importDefault(require("mongoose"));
 const socket_io_1 = require("socket.io");
 const http_1 = require("http");
 const routes_1 = require("./routes");
-const main_1 = require("./config/main");
-require('dotenv').config();
+require("dotenv").config();
 const app = (0, express_1.default)();
-app.use(express_1.default.json({ limit: '40mb' }));
+const http = (0, http_1.createServer)(app);
+app.use(express_1.default.json({ limit: "40mb" }));
 app.use(express_1.default.urlencoded({ extended: false }));
 app.use((0, cors_1.default)());
 app.use((0, cookie_parser_1.default)());
-app.use((0, morgan_1.default)('dev'));
-const http = (0, http_1.createServer)(app);
-exports.io = new socket_io_1.Server(http);
-exports.io.on('connection', (socket) => {
+app.use((0, morgan_1.default)("dev"));
+exports.io = new socket_io_1.Server(http, {
+    cors: { origin: "http://localhost:5173" },
+});
+const main_1 = require("./config/main");
+exports.io.on("connection", (socket) => {
     (0, main_1.SocketServer)(socket);
 });
 (0, routes_1.initWebRoute)(app);
@@ -33,12 +35,12 @@ mongoose_1.default
     serverSelectionTimeoutMS: 5000,
 })
     .then(() => {
-    console.log('connect success to mongodb 🍃');
+    console.log("connect success to mongodb 🍃");
 })
     .catch((err) => {
     throw err;
 });
 const port = process.env.PORT || 6030;
 http.listen(port, () => {
-    console.log('Server is run on port 🚀 ', port);
+    console.log("Server is run on port 🚀 ", port);
 });

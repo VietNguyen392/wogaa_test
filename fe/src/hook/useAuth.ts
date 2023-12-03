@@ -1,6 +1,6 @@
 import React from "react";
 import { POST, GET } from "../utils/fetchMethod";
-import {  getCookie } from "../utils/utils";
+import { toast } from "react-toastify";
 
 const useAuth = () => {
   const [state, setState] = React.useState({
@@ -34,12 +34,10 @@ const useAuth = () => {
     }
   };
   const handleLogout = async () => {
-    console.log(getCookie('access_token'))
     try {
-      const res = await GET("logout", getCookie("access_token"));
-      console.log(res);
+      return await GET("logout");
     } catch (error) {
-      error;
+      toast.error(error);
     }
   };
   return { handleLogin, loading, handleRegister, handleLogout };

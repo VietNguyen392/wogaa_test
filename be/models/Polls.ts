@@ -1,4 +1,3 @@
-import { timeStamp } from "console";
 import mongoose from "mongoose";
 import { IPoll } from "../utils";
 
@@ -10,6 +9,7 @@ const pollSchema = new mongoose.Schema(
       {
         name: { type: String, require: true },
         count: { type: Number, default: 0 },
+        checked: { type: Boolean, default: false },
       },
     ],
     user_voted: [{ type: String }],

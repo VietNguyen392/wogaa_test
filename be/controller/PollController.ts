@@ -52,11 +52,13 @@ const PollController = {
 
         {
           $inc: { "options.$.count": 1 },
+          $set: { "options.$.checked": true },
           $addToSet: { user_voted: userId },
-        }
+        },
+        { new: true }
       );
       io.to(`${req.params.id}`).emit("voted", voted);
-      res.json({ voted });
+      res.json({ code: 200, voted });
     } catch (error) {
       res.send({ msg: error });
     }

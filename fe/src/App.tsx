@@ -8,7 +8,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
 const webRouter = createBrowserRouter([
   { path: "/", element: <Home /> },
-  { path: "/voted/:slug", element: <PollDetail /> },
+  { path: "/:slug", element: <PollDetail /> },
   { path: "/create", element: <CreatePoll /> },
 ]);
 function App() {
@@ -18,7 +18,11 @@ function App() {
         <>
           <Header />
           <RouterProvider router={webRouter} />
-          <ToastContainer />
+          <ToastContainer
+            position={"top-right"}
+            autoClose={1000}
+            theme={"light"}
+          />
         </>
       ) : (
         <Auth />

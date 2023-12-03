@@ -12,13 +12,21 @@ const ListPoll = () => {
   }, []);
   return (
     <div className={"row gx-5"}>
+      <button
+        onClick={async () => {
+          const res = await GET("rf-token").then((res) => res.json());
+          console.log(res);
+        }}
+      >
+        click
+      </button>
       {polls &&
         polls?.map((item: object) => (
           <div key={item["_id"]} className={"col my-3"}>
             <div className="card shadow-lg" style={{ width: "20rem" }}>
               <div className="card-body">
                 <h3 className="card-title">{item["title"]}</h3>
-                <a href={`/voted/${item["_id"]}`} className={"card-link"}>
+                <a href={`/${item["_id"]}`} className={"card-link"}>
                   View
                 </a>
               </div>
