@@ -12,7 +12,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.validateEmail = exports.validateRegister = void 0;
 const validateRegister = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const { fullName, email, password } = req.body;
-    const regex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{6,20}$/;
     const errors = [];
     if (!fullName) {
         errors.push('Please insert you name');
@@ -23,8 +22,8 @@ const validateRegister = (req, res, next) => __awaiter(void 0, void 0, void 0, f
     else if (!validateEmail(email)) {
         errors.push('Email  format is incorrect.');
     }
-    if (!password.match(regex)) {
-        errors.push('Password must have at least 6 character 1 letter ,1 number,1 uppercase and 1 special character');
+    if ((password === null || password === void 0 ? void 0 : password.length) < 6) {
+        errors.push('Password must have at least 6 character');
     }
     if (errors.length > 0)
         return res.status(400).json({ msg: errors });

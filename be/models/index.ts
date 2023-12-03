@@ -1,5 +1,5 @@
 // entry point here
 import User from "./User";
-export {
-    User
-}
+import Polls from "./Polls";
+
+export { User, Polls };

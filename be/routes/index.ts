@@ -1,5 +1,5 @@
 import express from "express";
-import { UserController } from "../controller";
+import { UserController,PollController } from "../controller";
 import { validateRegister } from "../utils";
 import { authenticate } from "../middleware";
 
@@ -13,6 +13,11 @@ export const initWebRoute = (app: any) => {
   routes.get("/logout", authenticate, UserController.logout);
   routes.post("/register", validateRegister, UserController.register);
   routes.get("/rf-token", UserController.refreshToken);
+  //*Poll routes
+  routes.post('/create-poll',PollController.createPoll)
+  routes.get('/polls',PollController.getAllPoll)
+  routes.get('/poll/:id',PollController.getPollById)
+  routes.patch('/voted/:id',PollController.updateVote)
   return app.use("/api", routes);
 };
 //validRegister,

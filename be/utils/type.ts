@@ -25,3 +25,14 @@ export interface IDecodedToken {
 export interface IReqAuth extends Request {
   user?: IUser;
 }
+export interface IPoll{
+  user:IUser,
+  title:string,
+  options:string[]
+  user_voted:string[]
+}
+export interface IOptions{
+  name:string,
+  poll:IPoll,
+  count:number
+}

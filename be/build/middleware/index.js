@@ -39,7 +39,7 @@ exports.authenticate = authenticate;
 const handleUserLogin = (user, password, res) => __awaiter(void 0, void 0, void 0, function* () {
     const isMatch = yield bcrypt_1.default.compare(password, user.password);
     if (!isMatch) {
-        let msgError = 'Sai mật khẩu,vui lòng nhập lại.';
+        let msgError = 'Wrong password';
         return res.status(400).json({ msg: msgError });
     }
     const access_token = (0, main_1.generateAccessToken)({ id: user._id });
@@ -53,7 +53,8 @@ const handleUserLogin = (user, password, res) => __awaiter(void 0, void 0, void 
         maxAge: 30 * 24 * 60 * 60 * 1000, // 30days
     });
     res.json({
-        msg: 'Đăng nhập thành công!',
+        msg: 'Login Success!',
+        status: 200,
         access_token,
         user: Object.assign(Object.assign({}, user._doc), { password: '' }),
     });

@@ -9,7 +9,7 @@ import { User } from '../models';
 const UserController = {
   register: async (req: Request, res: Response) => {
     try {
-      const { fullName, email, password, gender, phoneNumber, avatar, address, role } = req.body;
+      const { fullName, email, password } = req.body;
       const userExist = await User.findOne({ email });
       if (userExist) return res.status(400).send({ msg: 'Email already in use' });
       const passwordHash = await bcrypt.hash(password, 10);
@@ -23,7 +23,6 @@ const UserController = {
           code: 0,
           _id: newUser.id,
           name: newUser.fullName,
-          // token: generateActiveToken(newUser._id),
         });
       } else {
         res.status(400).send({ msg: 'Error' });
@@ -73,9 +72,10 @@ const UserController = {
           rf_token: '',
         },
       );
-      return res.send('Đăng Xuất!');
+      return res.send('Logout!');
     } catch (error: any) {
       return res.status(500).send({ msg: error.message });
+
     }
   },
   refreshToken: async (req: Request, res: Response) => {

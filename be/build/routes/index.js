@@ -18,6 +18,11 @@ const initWebRoute = (app) => {
     routes.get("/logout", middleware_1.authenticate, controller_1.UserController.logout);
     routes.post("/register", utils_1.validateRegister, controller_1.UserController.register);
     routes.get("/rf-token", controller_1.UserController.refreshToken);
+    //*Poll routes
+    routes.post('/create-poll', controller_1.PollController.createPoll);
+    routes.get('/polls', controller_1.PollController.getAllPoll);
+    routes.get('/poll/:id', controller_1.PollController.getPollById);
+    routes.patch('/voted/:id', controller_1.PollController.updateVote);
     return app.use("/api", routes);
 };
 exports.initWebRoute = initWebRoute;

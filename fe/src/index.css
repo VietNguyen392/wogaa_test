@@ -39,18 +39,6 @@ main {
   background: var(--light);
   color: var(--dark);
 }
-::selection {
-  background: #2fc6c9;
-  color: #fff;
-}
-::-moz-selection {
-  background: linear-gradient(45deg, #2fc6c9, #5de170);
-  color: #fff;
-}
-::-webkit-selection {
-  background: rgb(33, 148, 168);
-  color: #fff;
-}
 ::-webkit-scrollbar {
   width: 5px;
   height: 6px;
@@ -100,6 +88,7 @@ pre {
 
 a {
   background-color: transparent;
+  text-decoration: none;
 }
 
 /**
@@ -182,7 +171,7 @@ img {
  * 2. Remove the margin in Firefox and Safari.
  */
 
-button,
+
 input,
 optgroup,
 select,
@@ -371,4 +360,11 @@ template {
 
 [hidden] {
   display: none;
+}
+.link_btn{
+  border: none;
+  background-color: transparent;
+  color: blue;
+  height: 0;
+  
 }

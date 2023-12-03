@@ -28,10 +28,6 @@ const userSchema = new mongoose_1.default.Schema({
         type: String,
         default: 'user',
     },
-    type: {
-        type: String,
-        default: 'register',
-    },
     rf_token: { type: String, select: false },
 }, { timestamps: true });
 exports.default = mongoose_1.default.model('Users', userSchema);

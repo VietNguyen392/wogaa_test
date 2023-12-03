@@ -2,7 +2,6 @@ import { NextFunction ,Request,Response} from "express";
 
 export const validateRegister = async (req: Request, res: Response, next: NextFunction) => {
   const { fullName, email, password} = req.body;
-  const regex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{6,20}$/;
   const errors = [];
   if(!fullName){
     errors.push('Please insert you name')
@@ -12,9 +11,9 @@ export const validateRegister = async (req: Request, res: Response, next: NextFu
   } else if (!validateEmail(email)) {
     errors.push('Email  format is incorrect.');
   }
-  if (!password.match(regex)) {
+  if (password?.length<6) {
     errors.push(
-      'Password must have at least 6 character 1 letter ,1 number,1 uppercase and 1 special character',
+      'Password must have at least 6 character',
     );
   }
   
