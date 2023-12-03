@@ -13,9 +13,12 @@ const useAuth = () => {
       setState((p) => ({ ...p, loading: true }));
       const res = await POST("login", data).then((res) => res.json());
       if (res.status === 200) {
+        toast(res["msg"]);
         localStorage.setItem("auth", JSON.stringify(res));
         setState((p) => ({ ...p, loading: false }));
         window.location.reload();
+      } else {
+        toast.error(res["msg"]);
       }
     } catch (error) {
       setState((p) => ({ ...p, loading: false }));

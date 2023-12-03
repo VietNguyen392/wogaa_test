@@ -14,10 +14,10 @@ export const initWebRoute = (app: any) => {
   routes.post("/register", validateRegister, UserController.register);
   routes.post("/rf-token", UserController.refreshToken);
   //*Poll routes
-  routes.post("/create-poll", authenticate, PollController.createPoll);
+  routes.post("/create-poll", PollController.createPoll);
   routes.get("/polls", PollController.getAllPoll);
   routes.get("/poll/:id", PollController.getPollById);
-  routes.patch("/voted/:id", authenticate, PollController.updateVote);
+  routes.patch("/voted/:id", PollController.updateVote);
   return app.use("/api", routes);
 };
 //validRegister,

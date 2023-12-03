@@ -18,15 +18,11 @@ function App() {
         <>
           <Header />
           <RouterProvider router={webRouter} />
-          <ToastContainer
-            position={"top-right"}
-            autoClose={1000}
-            theme={"light"}
-          />
         </>
       ) : (
         <Auth />
       )}
+      <ToastContainer position={"top-right"} autoClose={1000} theme={"light"} />
     </div>
   );
 }

@@ -6,8 +6,6 @@ import mongoose from "mongoose";
 import { Server, Socket } from "socket.io";
 import { createServer } from "http";
 import { initWebRoute } from "./routes";
-
-require("dotenv").config();
 const app = express();
 const http = createServer(app);
 app.use(express.json({ limit: "40mb" }));
@@ -16,14 +14,15 @@ app.use(cors());
 app.use(cookieParser());
 app.use(morgan("dev"));
 export const io = new Server(http, {
-  cors: { origin: "http://localhost:5173" },
+  cors: { origin: "http://localhost:8000" },
 });
 import { SocketServer } from "./config/main";
 io.on("connection", (socket: Socket) => {
   SocketServer(socket);
 });
 initWebRoute(app);
-const URI = process.env.DATABASE_URL;
+const URI =
+  "mongodb+srv://AaronNguyen:TinG1YRGKaPQWc4G@final-thesis.hk7sndt.mongodb.net/test";
 mongoose
   .connect(`${URI!}`, {
     autoIndex: true,
@@ -35,7 +34,7 @@ mongoose
   .catch((err: string) => {
     throw err;
   });
-const port = process.env.PORT || 6030;
+const port = 6030;
 http.listen(port, () => {
   console.log("Server is run on port 🚀 ", port);
 });

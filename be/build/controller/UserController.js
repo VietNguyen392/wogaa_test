@@ -97,19 +97,18 @@ const UserController = {
         }
     }),
     refreshToken: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-        console.log(req.cookies);
         try {
-            const rf_token = req.cookies.refreshtoken;
+            const rf_token = req.body.rf_token;
             if (!rf_token)
-                return res.status(400).send({ msg: "Hãy đăng nhập ngay!" });
+                return res.status(400).send({ msg: "Login!" });
             const decoded = (jsonwebtoken_1.default.verify(rf_token, `${process.env.REFRESH_TOKEN_SECRET}`));
             if (!decoded.id)
-                return res.status(400).send({ msg: "Hãy đăng nhập ngay!" });
+                return res.status(400).send({ msg: "Login!" });
             const user = yield models_1.User.findById(decoded.id).select("-password +rf_token");
             if (!user)
-                return res.status(400).send({ msg: "Tài khoản này không tồn tại" });
+                return res.status(400).send({ msg: "Error" });
             if (rf_token !== user.rf_token)
-                return res.status(400).send({ msg: "Hãy đăng nhập ngay!" });
+                return res.status(400).send({ msg: "Login!" });
             const access_token = (0, main_1.generateAccessToken)({ id: user._id });
             const refresh_token = (0, main_1.generateRefreshToken)({ id: user._id }, res);
             yield models_1.User.findOneAndUpdate({ _id: user._id }, {

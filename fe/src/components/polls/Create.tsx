@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 
 const Create = () => {
   const user = JSON.parse(localStorage.getItem("auth"));
-  const authorId = user.user["_id"];
+  const authorId = user?.user["_id"];
   const {
     control,
     handleSubmit,
@@ -34,6 +34,7 @@ const Create = () => {
           className="shadow-lg rounded px-4 py-2 bg-white"
           style={{ width: "40rem" }}
           onSubmit={handleSubmit(onSubmit)}
+          id="form-create-poll"
         >
           <h1 className="text-center">Create a Poll</h1>
           <div className="mb-3 w-100">
@@ -41,6 +42,7 @@ const Create = () => {
               Title<span className="text-danger">*</span>
             </label>
             <input
+              role={"input"}
               type="title"
               className="form-control w-100"
               id="title"
@@ -56,6 +58,7 @@ const Create = () => {
             </label>
             <br />
             <button
+              role={"add-button"}
               className="btn btn-primary"
               type={"button"}
               disabled={fields.length === 5}
@@ -72,6 +75,7 @@ const Create = () => {
                     {...register(`options.${index}.name`, {
                       required: "Options Name is required",
                     })}
+                    role={"option-input"}
                     placeholder={"Options Name"}
                   />
                   <button
@@ -88,7 +92,11 @@ const Create = () => {
               {errors.options && errors.options.message}
             </small>
           </div>
-          <button className="btn btn-primary w-100 mb-2" type={"submit"}>
+          <button
+            className="btn btn-primary w-100 mb-2"
+            type={"submit"}
+            role={"submit-btn"}
+          >
             Submit
           </button>
         </form>

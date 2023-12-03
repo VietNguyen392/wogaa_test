@@ -1,4 +1,4 @@
-const baseURL = "http://localhost:4040/";
+const baseURL = "http://localhost:6030/";
 
 export const GET = async (url: string, token?: string) => {
   return await fetch(`${baseURL}api/${url}`, {

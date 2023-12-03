@@ -4,7 +4,8 @@ import { GET, PATCH } from "../../utils/fetchMethod.ts";
 import { useForm } from "react-hook-form";
 import Results from "../../components/polls/Results.tsx";
 import { toast } from "react-toastify";
-import { socket } from "../../utils/socket.ts";
+import io from "socket.io-client";
+const socket = io("http://localhost:6030");
 const PollDetail = () => {
   const [state, setState] = React.useState({
     poll: {},
@@ -12,7 +13,7 @@ const PollDetail = () => {
   });
   const { poll, options } = state;
   const user = JSON.parse(localStorage.getItem("auth"));
-  const userId = user.user["_id"];
+  const userId = user?.user["_id"];
   const { register, handleSubmit, reset } = useForm({
     defaultValues: {
       userId: `${userId}`,
@@ -44,8 +45,8 @@ const PollDetail = () => {
     socket.on("voted", (data) => {
       setState((p) => ({
         ...p,
-        poll: { ...poll, ...data },
-        options: [...options, ...data["options"]],
+        poll: data,
+        options: data["options"],
       }));
     });
     return () => {
@@ -72,6 +73,7 @@ const PollDetail = () => {
                   ) : (
                     <input
                       type={"radio"}
+                      role={"options_vote"}
                       value={item["_id"]}
                       className={"form-check-input"}
                       disabled={userId === poll["author"]}

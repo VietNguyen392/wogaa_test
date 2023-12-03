@@ -9,7 +9,7 @@ const pollSchema = new mongoose_1.default.Schema({
     title: { type: String, require: true, trim: true },
     options: [
         {
-            name: { type: String, require: true },
+            name: { type: String, require: true, unique: true },
             count: { type: Number, default: 0 },
             checked: { type: Boolean, default: false },
         },
