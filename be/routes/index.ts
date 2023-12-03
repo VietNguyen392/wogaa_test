@@ -12,7 +12,7 @@ export const initWebRoute = (app: any) => {
   routes.post("/login", UserController.login);
   routes.get("/logout", authenticate, UserController.logout);
   routes.post("/register", validateRegister, UserController.register);
-  routes.get("/rf-token", UserController.refreshToken);
+  routes.post("/rf-token", UserController.refreshToken);
   //*Poll routes
   routes.post("/create-poll", authenticate, PollController.createPoll);
   routes.get("/polls", PollController.getAllPoll);

@@ -12,14 +12,6 @@ const ListPoll = () => {
   }, []);
   return (
     <div className={"row gx-5"}>
-      <button
-        onClick={async () => {
-          const res = await GET("rf-token").then((res) => res.json());
-          console.log(res);
-        }}
-      >
-        click
-      </button>
       {polls &&
         polls?.map((item: object) => (
           <div key={item["_id"]} className={"col my-3"}>

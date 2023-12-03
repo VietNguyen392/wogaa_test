@@ -79,25 +79,21 @@ const UserController = {
     }
   },
   refreshToken: async (req: Request, res: Response) => {
-    console.log(req.cookies);
     try {
-      const rf_token = req.cookies.refreshtoken;
-      if (!rf_token)
-        return res.status(400).send({ msg: "Hãy đăng nhập ngay!" });
+      const rf_token = req.body.rf_token;
+      if (!rf_token) return res.status(400).send({ msg: "Login!" });
 
       const decoded = <IDecodedToken>(
         jwt.verify(rf_token, `${process.env.REFRESH_TOKEN_SECRET}`)
       );
-      if (!decoded.id)
-        return res.status(400).send({ msg: "Hãy đăng nhập ngay!" });
+      if (!decoded.id) return res.status(400).send({ msg: "Login!" });
 
       const user = await User.findById(decoded.id).select(
         "-password +rf_token"
       );
-      if (!user)
-        return res.status(400).send({ msg: "Tài khoản này không tồn tại" });
+      if (!user) return res.status(400).send({ msg: "Error" });
       if (rf_token !== user.rf_token)
-        return res.status(400).send({ msg: "Hãy đăng nhập ngay!" });
+        return res.status(400).send({ msg: "Login!" });
 
       const access_token = generateAccessToken({ id: user._id });
       const refresh_token = generateRefreshToken({ id: user._id }, res);
