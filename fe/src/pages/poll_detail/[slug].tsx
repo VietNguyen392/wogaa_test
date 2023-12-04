@@ -63,24 +63,15 @@ const PollDetail = () => {
             {poll["options"]?.map((item: object) => (
               <li key={item["_id"]} className={"list-group-item"}>
                 <div className="form-check">
-                  {poll["user_voted"].includes(userId) ? (
-                    <input
-                      checked={item["checked"]}
-                      type={"radio"}
-                      className={"form-check-input"}
-                      disabled
-                    />
-                  ) : (
-                    <input
+                  <input
                       type={"radio"}
                       role={"options_vote"}
                       value={item["_id"]}
                       className={"form-check-input"}
-                      disabled={userId === poll["author"]}
+                      disabled={userId === poll["author"]||poll['user_voted']?.include(userId)}
                       id={item["name"]}
                       {...register("optionsId")}
                     />
-                  )}
                   <label
                     className="form-check-label text-capitalize"
                     htmlFor={item["name"]}

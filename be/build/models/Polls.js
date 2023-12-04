@@ -11,7 +11,6 @@ const pollSchema = new mongoose_1.default.Schema({
         {
             name: { type: String, require: true, unique: true },
             count: { type: Number, default: 0 },
-            checked: { type: Boolean, default: false },
         },
     ],
     user_voted: [{ type: String }],

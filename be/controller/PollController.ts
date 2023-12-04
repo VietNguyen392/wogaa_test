@@ -52,7 +52,7 @@ const PollController = {
 
         {
           $inc: { "options.$.count": 1 },
-          $set: { "options.$.checked": true },
+        
           $addToSet: { user_voted: userId },
         },
         { new: true }
