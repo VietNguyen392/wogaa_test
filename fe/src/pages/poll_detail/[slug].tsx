@@ -68,7 +68,7 @@ const PollDetail = () => {
                       role={"options_vote"}
                       value={item["_id"]}
                       className={"form-check-input"}
-                      disabled={userId === poll["author"]||poll['user_voted']?.include(userId)}
+                      disabled={userId === poll["author"]||poll['user_voted']?.includes(userId)}
                       id={item["name"]}
                       {...register("optionsId")}
                     />
